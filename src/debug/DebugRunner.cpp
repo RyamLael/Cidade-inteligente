@@ -1,7 +1,9 @@
 #include "debug/DebugRunner.h"
+
 #include "debug/DebugConfig.h"
 
 #include "debug/drivers/DHT11Debug.h"
+#include "debug/drivers/ServoDebug.h"
 
 void DebugSetup()
 {
@@ -9,6 +11,10 @@ void DebugSetup()
     {
         case DEBUG_DHT11:
             DHT11DebugSetup();
+            break;
+
+        case DEBUG_SERVO:
+            ServoDebugSetup();
             break;
 
         default:
@@ -22,6 +28,10 @@ void DebugLoop()
     {
         case DEBUG_DHT11:
             DHT11DebugLoop();
+            break;
+
+        case DEBUG_SERVO:
+            ServoDebugLoop();
             break;
 
         default:
