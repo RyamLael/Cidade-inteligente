@@ -8,7 +8,7 @@
 #define PIN_LDR_GATE 35
 
 // ===== Servo =====
-#define PIN_SERVO_GATE 18
+#define PIN_SERVO 18
 
 // ===== LEDs =====
 #define PIN_LED_POSTE 19

@@ -16,7 +16,7 @@ class ServoDriver {
         void open();
         void close();
 
-        void setAngle();
+        void setAngle(uint8_t angle);
         int getAngle() const;
 
     private:
