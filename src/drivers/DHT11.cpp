@@ -1,10 +1,10 @@
-#include "drivers/DHT22.h"
+#include "drivers/DHT11.h"
 
 #include <DHT.h>
 
-#define DHT_TYPE DHT22
+#define DHT_TYPE DHT11
 
-DHT22Driver::DHT22Driver(int pin)
+DHT11Driver::DHT11Driver(int pin)
     : _pin(pin),
       _dht(nullptr),
       _temperature(0.0f),
@@ -13,7 +13,7 @@ DHT22Driver::DHT22Driver(int pin)
 {
 }
 
-bool DHT22Driver::begin()
+bool DHT11Driver::begin()
 {
     _dht = new DHT(_pin, DHT_TYPE);
 
@@ -22,7 +22,7 @@ bool DHT22Driver::begin()
     return true;
 }
 
-bool DHT22Driver::read()
+bool DHT11Driver::read()
 {
     if (_dht == nullptr)
     {
@@ -46,22 +46,22 @@ bool DHT22Driver::read()
     return true;
 }
 
-float DHT22Driver::getTemperature() const
+float DHT11Driver::getTemperature() const
 {
     return _temperature;
 }
 
-float DHT22Driver::getHumidity() const
+float DHT11Driver::getHumidity() const
 {
     return _humidity;
 }
 
-bool DHT22Driver::isValid() const
+bool DHT11Driver::isValid() const
 {
     return _valid;
 }
 
-DHT22Driver::~DHT22Driver()
+DHT11Driver::~DHT11Driver()
 {
     if (_dht != nullptr)
     {

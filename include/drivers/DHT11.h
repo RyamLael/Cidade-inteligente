@@ -2,11 +2,11 @@
 
 class DHT;
 
-class DHT22Driver {
+class DHT11Driver {
 public:
-    DHT22Driver(int pin);
+    DHT11Driver(int pin);
 
-    ~DHT22Driver();
+    ~DHT11Driver();
 
     bool begin();
     bool read();

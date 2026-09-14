@@ -1,11 +1,11 @@
 #include <Arduino.h>
 
 #include "Config.h"
-#include "drivers/DHT22.h"
+#include "drivers/DHT11.h"
 
-static DHT22Driver dht(PIN_DHT22);
+static DHT11Driver dht(PIN_DHT22);
 
-void DHT22DebugSetup()
+void DHT11DebugSetup()
 {
     Serial.begin(115200);
 
@@ -17,7 +17,7 @@ void DHT22DebugSetup()
     dht.begin();
 }
 
-void DHT22DebugLoop()
+void DHT11DebugLoop()
 {
     if (dht.read())
     {
