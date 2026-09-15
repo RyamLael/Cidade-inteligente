@@ -1,20 +1,28 @@
 #pragma once
 
-// ===== DHT22 =====
-#define PIN_DHT22 4
+#include <cstdint>
+
+// ===== DHT =====
+constexpr uint8_t PIN_DHT11 = 4;
+constexpr uint8_t PIN_DHT22 = PIN_DHT11; // Alias for backward compatibility
 
 // ===== LDR =====
-#define PIN_LDR_LIGHT 34
-#define PIN_LDR_GATE 35
+constexpr uint8_t PIN_LDR_LIGHT = 34;
+constexpr uint8_t PIN_LDR_GATE  = 35;
 
 // ===== Servo =====
-#define PIN_SERVO 18
+constexpr uint8_t PIN_SERVO = 18;
 
 // ===== LEDs =====
-#define PIN_LED_POSTE 19
+constexpr uint8_t PIN_LED_POSTE = 19;
 
 // ===== Laser =====
-#define PIN_LASER 23
+constexpr uint8_t PIN_LASER = 23;
 
-// ===== LCD =====
-#define LCD_I2C_ADDR 0x27
+// ===== I2C =====
+constexpr uint8_t PIN_I2C_SDA = 21;
+constexpr uint8_t PIN_I2C_SCL = 22;
+
+// ===== LCD Addresses =====
+constexpr uint8_t LCD_WELCOME_ADDRESS = 0x3F;
+constexpr uint8_t LCD_SENSOR_ADDRESS  = 0x3E;

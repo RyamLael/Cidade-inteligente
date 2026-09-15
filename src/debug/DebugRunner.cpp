@@ -4,6 +4,8 @@
 
 #include "debug/drivers/DHT11Debug.h"
 #include "debug/drivers/ServoDebug.h"
+#include "debug/drivers/LCDDebug.h"
+#include "debug/i2c/I2CScannerDebug.h"
 
 void DebugSetup()
 {
@@ -15,6 +17,14 @@ void DebugSetup()
 
         case DEBUG_SERVO:
             ServoDebugSetup();
+            break;
+
+        case DEBUG_I2C_SCANNER:
+            I2CScannerDebugSetup();
+            break;
+
+        case DEBUG_LCD:
+            LCDDebugSetup();
             break;
 
         default:
@@ -32,6 +42,14 @@ void DebugLoop()
 
         case DEBUG_SERVO:
             ServoDebugLoop();
+            break;
+
+        case DEBUG_I2C_SCANNER:
+            I2CScannerDebugLoop();
+            break;
+
+        case DEBUG_LCD:
+            LCDDebugLoop();
             break;
 
         default:

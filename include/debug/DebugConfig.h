@@ -6,7 +6,11 @@ enum DebugModule
 
     DEBUG_DHT11,
 
-    DEBUG_SERVO
+    DEBUG_SERVO,
+
+    DEBUG_I2C_SCANNER,
+
+    DEBUG_LCD
 };
 
-constexpr DebugModule ACTIVE_DEBUG = DEBUG_SERVO;
+constexpr DebugModule ACTIVE_DEBUG = DEBUG_LCD;
