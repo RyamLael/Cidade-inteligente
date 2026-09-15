@@ -2,15 +2,15 @@
 
 enum DebugModule
 {
-    DEBUG_NONE,
+    DEBUG_NONE = 0,
 
-    DEBUG_DHT11,
+    DEBUG_DHT11 = 1,
 
-    DEBUG_SERVO,
+    DEBUG_SERVO = 2,
 
-    DEBUG_I2C_SCANNER,
+    DEBUG_I2C_SCANNER = 3,
 
-    DEBUG_LCD
+    DEBUG_LCD = 4
 };
 
 constexpr DebugModule ACTIVE_DEBUG = DEBUG_LCD;

@@ -1,55 +1,90 @@
 #include "debug/DebugRunner.h"
 
-#include "debug/DebugConfig.h"
+#include <Arduino.h>
 
 #include "debug/drivers/DHT11Debug.h"
 #include "debug/drivers/ServoDebug.h"
 #include "debug/drivers/LCDDebug.h"
-#include "debug/i2c/I2CScannerDebug.h"
+#include "debug/tools/I2CScannerDebug.h"
+
+static int selectedDebug = 0;
+
+static void ShowMenu()
+{
+    Serial.println();
+    Serial.println("====================");
+    Serial.println("DEBUG MENU");
+    Serial.println("====================");
+    Serial.println("1 - DHT22");
+    Serial.println("2 - Servo");
+    Serial.println("3 - LCD");
+    Serial.println("4 - I2C Scanner");
+    Serial.println();
+    Serial.print("Choose option: ");
+}
 
 void DebugSetup()
 {
-    switch (ACTIVE_DEBUG)
+    Serial.begin(115200);
+
+    delay(1000);
+
+    while (selectedDebug == 0)
     {
-        case DEBUG_DHT11:
-            DHT11DebugSetup();
-            break;
+        ShowMenu();
 
-        case DEBUG_SERVO:
-            ServoDebugSetup();
-            break;
+        while (!Serial.available())
+        {
+            delay(10);
+        }
 
-        case DEBUG_I2C_SCANNER:
-            I2CScannerDebugSetup();
-            break;
+        selectedDebug = Serial.parseInt();
 
-        case DEBUG_LCD:
-            LCDDebugSetup();
-            break;
+        switch (selectedDebug)
+        {
+            case 1:
+                DHT11DebugSetup();
+                break;
 
-        default:
-            break;
+            case 2:
+                ServoDebugSetup();
+                break;
+
+            case 3:
+                LCDDebugSetup();
+                break;
+
+            case 4:
+                I2CScannerDebugSetup();
+                break;
+
+            default:
+                Serial.println();
+                Serial.println("Invalid option.");
+                selectedDebug = 0;
+                break;
+        }
     }
 }
 
 void DebugLoop()
 {
-    switch (ACTIVE_DEBUG)
+    switch (selectedDebug)
     {
-        case DEBUG_DHT11:
+        case 1:
             DHT11DebugLoop();
             break;
 
-        case DEBUG_SERVO:
+        case 2:
             ServoDebugLoop();
             break;
 
-        case DEBUG_I2C_SCANNER:
-            I2CScannerDebugLoop();
+        case 3:
+            LCDDebugLoop();
             break;
 
-        case DEBUG_LCD:
-            LCDDebugLoop();
+        case 4:
+            I2CScannerDebugLoop();
             break;
 
         default:
