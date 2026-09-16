@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cidade Inteligente</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Cidade Inteligente</h1>
+
+        <div class="card">
+            <h2>Status da Conexão</h2>
+            <p id="connectionStatus">
+                Desconectado
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Cidade</h2>
+
+            <input
+                id="cityInput"
+                type="text"
+                maxlength="16"
+                placeholder="Nome da cidade">
+
+            <button id="cityButton">
+                Alterar Cidade
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Sensores</h2>
+
+            <p>Temperatura: <span id="temperature">--</span> °C</p>
+
+            <p>Umidade: <span id="humidity">--</span> %</p>
+
+            <p>Luz Ambiente: <span id="ambientLight">--</span></p>
+
+            <p>Luz Cancela: <span id="gateLight">--</span></p>
+        </div>
+
+        <div class="card">
+            <h2>Cancela</h2>
+
+            <p>
+                Estado:
+                <span id="gateState">
+                    Desconhecido
+                </span>
+            </p>
+
+            <button id="openGateButton">
+                Abrir
+            </button>
+
+            <button id="closeGateButton">
+                Fechar
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Estado Completo</h2>
+
+            <pre id="jsonViewer">
+Aguardando dados...
+            </pre>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>

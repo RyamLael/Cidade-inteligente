@@ -1,18 +1,27 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#include "SystemState.h"
+#include "tasks/TaskManager.h"
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+void setup()
+{
+    Serial.begin(115200);
+
+    g_stateMutex =
+        xSemaphoreCreateMutex();
+
+    if (g_stateMutex == nullptr)
+    {
+        while (true)
+        {
+            delay(1000);
+        }
+    }
+
+    TaskManager::createTasks();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void loop()
+{
+    vTaskDelete(nullptr);
 }
