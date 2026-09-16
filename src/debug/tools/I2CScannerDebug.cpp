@@ -1,4 +1,4 @@
-#include "debug/i2c/I2CScannerDebug.h"
+#include "debug/tools/I2CScannerDebug.h"
 
 #include <Arduino.h>
 #include <Wire.h>

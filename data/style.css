@@ -1,4 +1,3 @@
-/* Reset básico e tipografia */
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +13,6 @@ body {
   padding: 16px;
 }
 
-/* Container Mobile First */
 .app-container {
   width: 100%;
   max-width: 420px;
@@ -86,7 +84,6 @@ body {
   border-radius: 50%;
 }
 
-/* Título */
 .page-title {
   font-size: 1.25rem;
   font-weight: 700;
@@ -94,7 +91,7 @@ body {
   margin-bottom: 8px;
 }
 
-/* Cards Generativos */
+/* Cards */
 .content {
   display: flex;
   flex-direction: column;
@@ -175,7 +172,6 @@ body {
   border-color: #3b82f6;
 }
 
-/* Status Box */
 .status-box {
   background-color: #121a30;
   border-radius: 12px;

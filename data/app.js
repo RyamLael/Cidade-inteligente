@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Controle da Iluminação
+    // 3. Iluminação
     if (lightCard) {
         const lightBtn = lightCard.querySelector('.btn');
         const lightStatusBox = lightCard.querySelector('.status-box');
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 4. Controle da Cancela
+    // 4. Cancela
     if (gateCard) {
         const gateBtn = gateCard.querySelector('.btn');
         const gateStatusBox = gateCard.querySelector('.status-box');
