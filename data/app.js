@@ -1,172 +1,125 @@
-let socket = null;
+document.addEventListener('DOMContentLoaded', () => {
 
-const connectionStatus =
-    document.getElementById(
-        "connectionStatus"
-    );
+    const cards = document.querySelectorAll('.card');
+    const cityCard = cards[0];
+    const lightCard = cards[1];
+    const gateCard = cards[2];
 
-const temperature =
-    document.getElementById(
-        "temperature"
-    );
+    // 1. Abrir e Fechar as Drawers (Cards)
+    cards.forEach(card => {
+        const header = card.querySelector('.card-header');
+        const body = card.querySelector('.card-body');
+        const chevron = card.querySelector('.chevron-icon');
 
-const humidity =
-    document.getElementById(
-        "humidity"
-    );
+        if (header && body) {
+            header.style.cursor = 'pointer';
 
-const ambientLight =
-    document.getElementById(
-        "ambientLight"
-    );
+            header.addEventListener('click', () => {
+                const isVisible = window.getComputedStyle(body).display !== 'none';
 
-const gateLight =
-    document.getElementById(
-        "gateLight"
-    );
+                if (isVisible) {
+                    body.style.display = 'none';
+                    if (chevron) chevron.style.transform = 'rotate(180deg)';
+                } else {
+                    body.style.display = 'flex';
+                    if (chevron) chevron.style.transform = 'rotate(0deg)';
+                }
+            });
+        }
+    });
 
-const gateState =
-    document.getElementById(
-        "gateState"
-    );
+    // 2. Atualiza o nome da cidade
+    const pageTitle = document.querySelector('.page-title');
+    const cityInput = cityCard ? cityCard.querySelector('#city-input') : null;
+    const saveCityBtn = cityCard ? cityCard.querySelector('.btn') : null;
 
-const jsonViewer =
-    document.getElementById(
-        "jsonViewer"
-    );
+    const citySubtitle = document.createElement('p');
+    citySubtitle.className = 'city-subtitle';
+    citySubtitle.style.fontSize = '0.9rem';
+    citySubtitle.style.color = '#64748b';
+    citySubtitle.style.marginTop = '4px';
+    pageTitle.after(citySubtitle);
 
-const cityInput =
-    document.getElementById(
-        "cityInput"
-    );
-
-function connectWebSocket()
-{
-    socket =
-        new WebSocket(
-            `ws://${window.location.host}/ws`
-        );
-
-    socket.onopen =
-        () =>
-    {
-        connectionStatus.textContent =
-            "Conectado";
-    };
-
-    socket.onclose =
-        () =>
-    {
-        connectionStatus.textContent =
-            "Desconectado";
-
-        setTimeout(
-            connectWebSocket,
-            2000
-        );
-    };
-
-    socket.onerror =
-        () =>
-    {
-        connectionStatus.textContent =
-            "Erro";
-    };
-
-    socket.onmessage =
-        (event) =>
-    {
-        const data =
-            JSON.parse(
-                event.data
-            );
-
-        temperature.textContent =
-            data.temperature;
-
-        humidity.textContent =
-            data.humidity;
-
-        ambientLight.textContent =
-            data.ambientLight;
-
-        gateLight.textContent =
-            data.gateLight;
-
-        gateState.textContent =
-            data.gateOpen
-                ? "Aberta"
-                : "Fechada";
-
-        jsonViewer.textContent =
-            JSON.stringify(
-                data,
-                null,
-                2
-            );
-    };
-}
-
-document
-    .getElementById(
-        "cityButton"
-    )
-    .addEventListener(
-        "click",
-        () =>
-        {
-            if (
-                !socket ||
-                socket.readyState !== WebSocket.OPEN
-            )
-            {
-                return;
+    if (saveCityBtn && cityInput) {
+        saveCityBtn.addEventListener('click', () => {
+            const cityVal = cityInput.value.trim();
+            if (cityVal !== '') {
+                citySubtitle.textContent = `Nome da cidade: ${cityVal}`;
             }
+        });
+    }
 
-            socket.send(
-                JSON.stringify({
-                    command:
-                        "set_city",
+    // 3. Iluminação
+    if (lightCard) {
+        const lightBtn = lightCard.querySelector('.btn');
+        const lightStatusBox = lightCard.querySelector('.status-box');
+        const lampCircle = lightCard.querySelector('.lamp-circle');
+        const lampIcon = lampCircle ? lampCircle.querySelector('svg') : null; // Captura o ícone SVG
+        const lightText = lightStatusBox ? lightStatusBox.querySelector('span') : null;
 
-                    city:
-                        cityInput.value
-                })
-            );
+        let isLightOn = true;
+
+        if (lightBtn && lightStatusBox && lampCircle && lightText) {
+            lightBtn.addEventListener('click', () => {
+                isLightOn = !isLightOn;
+
+                if (!isLightOn) {
+                    // Desligar luzes
+                    lightStatusBox.style.borderColor = '#0D193A';
+                    lampCircle.style.backgroundColor = '#0D193A';
+                    if (lampIcon) lampIcon.style.stroke = '#FFFFFF'; // Torna o ícone branco
+
+                    lightText.textContent = 'Luzes Desligadas';
+                    lightBtn.textContent = 'Ligar';
+                    lightBtn.classList.remove('btn-red');
+                    lightBtn.classList.add('btn-green');
+                } else {
+                    // Acender luzes
+                    lightStatusBox.style.borderColor = '#eab308';
+                    lampCircle.style.backgroundColor = '#eab308';
+                    if (lampIcon) lampIcon.style.stroke = '#121a30'; // Volta à cor original do SVG
+
+                    lightText.textContent = 'Luzes Ligadas';
+                    lightBtn.textContent = 'Desligar';
+                    lightBtn.classList.remove('btn-green');
+                    lightBtn.classList.add('btn-red');
+                }
+            });
         }
-    );
+    }
 
-document
-    .getElementById(
-        "openGateButton"
-    )
-    .addEventListener(
-        "click",
-        () =>
-        {
-            socket.send(
-                JSON.stringify({
-                    command:
-                        "open_gate"
-                })
-            );
+    // 4. Cancela
+    if (gateCard) {
+        const gateBtn = gateCard.querySelector('.btn');
+        const gateStatusBox = gateCard.querySelector('.status-box');
+        const gateDot = gateCard.querySelector('.status-dot-green');
+        const gateText = gateStatusBox ? gateStatusBox.querySelector('span:last-child') : null;
+
+        let isGateOpen = true;
+
+        if (gateBtn && gateStatusBox && gateDot && gateText) {
+            gateBtn.addEventListener('click', () => {
+                isGateOpen = !isGateOpen;
+
+                if (!isGateOpen) {
+                    // Fecha a cancela
+                    gateStatusBox.style.borderColor = '#852222';
+                    gateDot.style.backgroundColor = '#852222';
+                    gateText.textContent = 'Fechada';
+                    gateBtn.textContent = 'Ligar'; // Conforme o requisito 4c ("Ligar")
+                    gateBtn.classList.remove('btn-red');
+                    gateBtn.classList.add('btn-green');
+                } else {
+                    // Abre a cancela
+                    gateStatusBox.style.borderColor = '#22c55e';
+                    gateDot.style.backgroundColor = '#22c55e';
+                    gateText.textContent = 'Aberta';
+                    gateBtn.textContent = 'Fechar';
+                    gateBtn.classList.remove('btn-green');
+                    gateBtn.classList.add('btn-red');
+                }
+            });
         }
-    );
+    }
 
-document
-    .getElementById(
-        "closeGateButton"
-    )
-    .addEventListener(
-        "click",
-        () =>
-        {
-            socket.send(
-                JSON.stringify({
-                    command:
-                        "close_gate"
-                })
-            );
-        }
-    );
-
-connectWebSocket();
+});
