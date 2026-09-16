@@ -5,6 +5,7 @@
 #include "Config.h"
 #include "SystemState.h"
 #include "StateLock.h"
+#include <Arduino.h>
 
 #include "drivers/DHT11.h"
 
@@ -22,19 +23,20 @@ bool SensorService::begin()
 
 bool SensorService::update()
 {
+    if (!dht.read())
+    {
+        Serial.println(
+            "Falha ao ler DHT11"
+        );
+
+        return false;
+    }
+
     const float temperature =
         dht.getTemperature();
 
     const float humidity =
         dht.getHumidity();
-
-    if (
-        std::isnan(temperature) ||
-        std::isnan(humidity)
-    )
-    {
-        return false;
-    }
 
     STATE_LOCK();
 

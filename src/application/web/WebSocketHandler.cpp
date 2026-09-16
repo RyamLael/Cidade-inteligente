@@ -94,14 +94,6 @@ void WebSocketHandler::onEvent(
                     );
             }
 
-            Serial.print(
-                "WS RX: "
-            );
-
-            Serial.println(
-                message
-            );
-
             JsonDocument json;
 
             DeserializationError error =
@@ -183,11 +175,11 @@ void WebSocketHandler::onEvent(
             {
                 STATE_LOCK();
 
-                g_systemState.manualGateControl =
+                g_systemState.gateOpenRequest =
                     true;
 
-                g_systemState.gateOpen =
-                    true;
+                g_systemState.gateCloseRequest =
+                    false;
 
                 g_systemState.webStateChanged =
                     true;
@@ -203,10 +195,10 @@ void WebSocketHandler::onEvent(
             {
                 STATE_LOCK();
 
-                g_systemState.manualGateControl =
+                g_systemState.gateCloseRequest =
                     true;
 
-                g_systemState.gateOpen =
+                g_systemState.gateOpenRequest =
                     false;
 
                 g_systemState.webStateChanged =
@@ -223,7 +215,10 @@ void WebSocketHandler::onEvent(
             {
                 STATE_LOCK();
 
-                g_systemState.manualGateControl =
+                g_systemState.gateOpenRequest =
+                    false;
+
+                g_systemState.gateCloseRequest =
                     false;
 
                 g_systemState.webStateChanged =
@@ -299,10 +294,6 @@ void WebSocketHandler::onEvent(
 
         case WS_EVT_PONG:
         {
-            Serial.println(
-                "WS PONG"
-            );
-
             break;
         }
 

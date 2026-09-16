@@ -18,6 +18,9 @@ struct SystemState
 
     bool manualGateControl = false;
 
+    bool gateOpenRequest = false;
+    bool gateCloseRequest = false;
+
     uint8_t streetLightBrightness = 0;
 
     bool manualLightingControl = false;
