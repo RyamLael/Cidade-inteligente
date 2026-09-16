@@ -3,30 +3,41 @@
 #include <LiquidCrystal_I2C.h>
 #include <cstdio>
 
-LCDDriver::LCDDriver(uint8_t address, uint8_t cols, uint8_t rows)
-    : _address(address), _cols(cols), _rows(rows), _lcd(nullptr)
+LCDDriver::LCDDriver(
+    uint8_t address,
+    uint8_t cols,
+    uint8_t rows
+)
+    : _address(address),
+      _cols(cols),
+      _rows(rows),
+      _initialized(false),
+      _lcd(nullptr)
 {
 }
 
 LCDDriver::~LCDDriver()
 {
-    if (_lcd != nullptr)
-    {
-        delete _lcd;
-        _lcd = nullptr;
-    }
+    delete _lcd;
+    _lcd = nullptr;
 }
 
 bool LCDDriver::begin()
 {
     if (_lcd == nullptr)
     {
-        _lcd = new LiquidCrystal_I2C(_address, _cols, _rows);
+        _lcd = new LiquidCrystal_I2C(
+            _address,
+            _cols,
+            _rows
+        );
     }
 
     _lcd->init();
     _lcd->backlight();
     _lcd->clear();
+
+    _initialized = true;
 
     return true;
 }
@@ -39,23 +50,36 @@ void LCDDriver::clear()
     }
 }
 
-void LCDDriver::setCursor(uint8_t col, uint8_t row)
+void LCDDriver::setCursor(
+    uint8_t col,
+    uint8_t row
+)
 {
     if (_lcd != nullptr)
     {
-        _lcd->setCursor(col, row);
+        _lcd->setCursor(
+            col,
+            row
+        );
     }
 }
 
-void LCDDriver::print(const char* text)
+void LCDDriver::print(
+    const char* text
+)
 {
-    if (_lcd != nullptr && text != nullptr)
+    if (
+        _lcd != nullptr &&
+        text != nullptr
+    )
     {
         _lcd->print(text);
     }
 }
 
-void LCDDriver::print(const String& text)
+void LCDDriver::print(
+    const String& text
+)
 {
     if (_lcd != nullptr)
     {
@@ -63,38 +87,85 @@ void LCDDriver::print(const String& text)
     }
 }
 
-void LCDDriver::printAt(uint8_t col, uint8_t row, const char* text)
+void LCDDriver::printAt(
+    uint8_t col,
+    uint8_t row,
+    const char* text
+)
 {
-    if (_lcd != nullptr && text != nullptr)
+    if (
+        _lcd != nullptr &&
+        text != nullptr
+    )
     {
-        _lcd->setCursor(col, row);
+        _lcd->setCursor(
+            col,
+            row
+        );
+
         _lcd->print(text);
     }
 }
 
-void LCDDriver::printAt(uint8_t col, uint8_t row, const String& text)
+void LCDDriver::printAt(
+    uint8_t col,
+    uint8_t row,
+    const String& text
+)
 {
     if (_lcd != nullptr)
     {
-        _lcd->setCursor(col, row);
+        _lcd->setCursor(
+            col,
+            row
+        );
+
         _lcd->print(text);
     }
 }
 
-void LCDDriver::writeLine(uint8_t row, const char* text)
+void LCDDriver::writeLine(
+    uint8_t row,
+    const char* text
+)
 {
-    if (_lcd != nullptr && text != nullptr)
+    if (
+        _lcd == nullptr ||
+        text == nullptr ||
+        row >= _rows
+    )
     {
-        _lcd->setCursor(0, row);
-        char buffer[32];
-        std::snprintf(buffer, sizeof(buffer), "%-*.*s", _cols, _cols, text);
-        _lcd->print(buffer);
+        return;
     }
+
+    char buffer[32];
+
+    std::snprintf(
+        buffer,
+        sizeof(buffer),
+        "%-*.*s",
+        _cols,
+        _cols,
+        text
+    );
+
+    _lcd->setCursor(
+        0,
+        row
+    );
+
+    _lcd->print(buffer);
 }
 
-void LCDDriver::writeLine(uint8_t row, const String& text)
+void LCDDriver::writeLine(
+    uint8_t row,
+    const String& text
+)
 {
-    writeLine(row, text.c_str());
+    writeLine(
+        row,
+        text.c_str()
+    );
 }
 
 void LCDDriver::backlight()
@@ -113,7 +184,9 @@ void LCDDriver::noBacklight()
     }
 }
 
-void LCDDriver::setBacklight(bool enable)
+void LCDDriver::setBacklight(
+    bool enable
+)
 {
     if (_lcd != nullptr)
     {
@@ -126,6 +199,11 @@ void LCDDriver::setBacklight(bool enable)
             _lcd->noBacklight();
         }
     }
+}
+
+bool LCDDriver::isInitialized() const
+{
+    return _initialized;
 }
 
 uint8_t LCDDriver::getAddress() const

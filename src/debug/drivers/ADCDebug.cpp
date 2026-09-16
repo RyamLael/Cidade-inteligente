@@ -5,7 +5,7 @@
 #include "Config.h"
 #include "drivers/ADC.h"
 
-static ADCDriver ldr(LDR_PIN);
+static ADCDriver ldr(PIN_LDR_AMBIENT);
 
 void ADCDebugSetup()
 {

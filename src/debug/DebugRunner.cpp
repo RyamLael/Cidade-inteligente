@@ -8,6 +8,7 @@
 #include "debug/drivers/ServoDebug.h"
 #include "debug/tools/I2CScannerDebug.h"
 #include "debug/drivers/WiFiDebug.h"
+#include "debug/drivers/LEDDebug.h"
 
 static int selectedDebug = 0;
 
@@ -23,6 +24,7 @@ static void ShowMenu()
     Serial.println("4 - I2C Scanner");
     Serial.println("5 - ADC");
     Serial.println("6 - WiFi");
+    Serial.println("7 - LED");
     Serial.println();
     Serial.print("Choose option: ");
 }
@@ -68,6 +70,9 @@ void DebugSetup()
             case 6:
                 WiFiDebugSetup();
                 break;
+            case 7:
+                LEDDebugSetup();
+                break;
 
             default:
                 Serial.println();
@@ -103,6 +108,9 @@ void DebugLoop()
             break;
         case 6:
             WiFiDebugLoop();
+            break;
+        case 7:
+            LEDDebugLoop();
             break;
 
         default:
