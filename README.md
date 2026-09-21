@@ -41,41 +41,7 @@ A modular, real-time Smart City embedded system built on the **ESP32** microcont
 
 The software architecture follows a **Producer-Consumer pattern centered around a protected global state**. Peripheral drivers interact directly with hardware registers or low-level libraries. Application services encapsulate business logic and algorithms. FreeRTOS tasks execute periodic loops pinned to specific CPU cores, updating or reading the synchronized `SystemState`.
 
-```
-                      ┌─────────────────────────────────────────┐
-                      │                HARDWARE                 │
-                      │  DHT11   LDRs   Pot   Laser  Servo  LED │
-                      └────┬───────┬─────┬──────┬──────▲─────▲──┘
-                           │       │     │      │      │     │
-                           ▼       ▼     ▼      │      │     │
-┌─────────────────────────────┐ ┌─────────────┐ │      │     │
-│         Drivers Layer       │ │AnalogDriver │ │      │     │
-│  DHT11  ADC  LCD  LED  Servo│ └──────┬──────┘ │      │     │
-└──────────────┬──────────────┘        │        │      │     │
-               │                       ▼        │      │     │
-┌──────────────▼────────────────────────────────┴──────┴─────┴──┐
-│                      Application Services Layer               │
-│  SensorService  AnalogService  LightingService  GateService   │
-└──────────────────────────────┬────────────────────────────────┘
-                               │ (Thread-Safe Mutex Lock)
-                               ▼
-┌───────────────────────────────────────────────────────────────┐
-│                   Global State (SystemState)                  │
-│       Shared Telemetry, Configuration, and Dirty Flags        │
-└──────────────┬────────────────────────────────┬───────────────┘
-               │                                │
-               ▼                                ▼
-┌─────────────────────────────┐  ┌──────────────────────────────┐
-│         Task Layer          │  │       Web / Network Layer    │
-│  SensorTask    AnalogTask   │  │  AsyncWebServer (Port 80)    │
-│  LightingTask  GateTask     │  │  WebSocketHandler (/ws)      │
-│  DisplayTask   (Core 1)     │  │  WebServerTask (Core 0)      │
-└──────────────┬──────────────┘  └──────────────┬───────────────┘
-               │                                │
-               ▼                                ▼
-       Dual 16x2 LCDs                    Web Browser (PWA)
-     (Welcome & Sensors)                 Real-Time Control UI
-```
+![Arquitetura do Projeto](docs/imagens/mermaid-diagram.png)
 
 ### Drivers Layer
 
