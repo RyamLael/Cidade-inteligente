@@ -1,44 +1,14 @@
 let socket = null;
 
-const connectionStatus =
-    document.getElementById(
-        "connectionStatus"
-    );
+let cityInput;
+let saveCityBtn;
 
-const temperature =
-    document.getElementById(
-        "temperature"
-    );
+let gateBtn;
+let gateStatusBox;
+let gateDot;
+let gateText;
 
-const humidity =
-    document.getElementById(
-        "humidity"
-    );
-
-const ambientLight =
-    document.getElementById(
-        "ambientLight"
-    );
-
-const gateLight =
-    document.getElementById(
-        "gateLight"
-    );
-
-const gateState =
-    document.getElementById(
-        "gateState"
-    );
-
-const jsonViewer =
-    document.getElementById(
-        "jsonViewer"
-    );
-
-const cityInput =
-    document.getElementById(
-        "cityInput"
-    );
+let lightBtn;
 
 function connectWebSocket()
 {
@@ -50,15 +20,19 @@ function connectWebSocket()
     socket.onopen =
         () =>
     {
-        connectionStatus.textContent =
-            "Conectado";
+        console.log(
+            "WebSocket conectado"
+        );
+
+        requestState();
     };
 
     socket.onclose =
         () =>
     {
-        connectionStatus.textContent =
-            "Desconectado";
+        console.log(
+            "WebSocket desconectado"
+        );
 
         setTimeout(
             connectWebSocket,
@@ -67,10 +41,11 @@ function connectWebSocket()
     };
 
     socket.onerror =
-        () =>
+        (error) =>
     {
-        connectionStatus.textContent =
-            "Erro";
+        console.error(
+            error
+        );
     };
 
     socket.onmessage =
@@ -81,92 +56,445 @@ function connectWebSocket()
                 event.data
             );
 
-        temperature.textContent =
-            data.temperature;
+        console.log(
+            "Estado recebido:",
+            data
+        );
 
-        humidity.textContent =
-            data.humidity;
-
-        ambientLight.textContent =
-            data.ambientLight;
-
-        gateLight.textContent =
-            data.gateLight;
-
-        gateState.textContent =
-            data.gateOpen
-                ? "Aberta"
-                : "Fechada";
-
-        jsonViewer.textContent =
-            JSON.stringify(
-                data,
-                null,
-                2
-            );
+        updateUI(
+            data
+        );
     };
 }
 
-document
-    .getElementById(
-        "cityButton"
+function sendCommand(
+    payload
+)
+{
+    if (
+        !socket ||
+        socket.readyState !==
+            WebSocket.OPEN
     )
-    .addEventListener(
-        "click",
-        () =>
-        {
-            if (
-                !socket ||
-                socket.readyState !== WebSocket.OPEN
-            )
+    {
+        console.warn(
+            "WebSocket não conectado"
+        );
+
+        return;
+    }
+
+    socket.send(
+        JSON.stringify(
+            payload
+        )
+    );
+}
+
+function requestState()
+{
+    sendCommand({
+        command:
+            "request_state"
+    });
+}
+
+function updateUI(
+    data
+)
+{
+    updateCity(
+        data
+    );
+
+    updateGate(
+        data
+    );
+
+    updateLighting(
+        data
+    );
+
+    updateSensors(
+        data
+    );
+}
+
+function updateCity(
+    data
+)
+{
+    const subtitle =
+        document.getElementById(
+            "citySubtitle"
+        );
+
+    if (
+        subtitle &&
+        data.cityName
+    )
+    {
+        subtitle.textContent =
+            `Cidade: ${data.cityName}`;
+    }
+
+    if (
+        cityInput &&
+        document.activeElement !==
+            cityInput
+    )
+    {
+        cityInput.value =
+            data.cityName ||
+            "";
+    }
+}
+
+function updateGate(
+    data
+)
+{
+    if (
+        !gateBtn ||
+        !gateStatusBox ||
+        !gateDot ||
+        !gateText
+    )
+    {
+        return;
+    }
+
+    if (data.gateOpen)
+    {
+        gateStatusBox.style.borderColor =
+            "#22c55e";
+
+        gateDot.style.backgroundColor =
+            "#22c55e";
+
+        gateText.textContent =
+            "Aberta";
+
+        gateBtn.textContent =
+            "Fechar";
+
+        gateBtn.classList.remove(
+            "btn-green"
+        );
+
+        gateBtn.classList.add(
+            "btn-red"
+        );
+    }
+    else
+    {
+        gateStatusBox.style.borderColor =
+            "#852222";
+
+        gateDot.style.backgroundColor =
+            "#852222";
+
+        gateText.textContent =
+            "Fechada";
+
+        gateBtn.textContent =
+            "Abrir";
+
+        gateBtn.classList.remove(
+            "btn-red"
+        );
+
+        gateBtn.classList.add(
+            "btn-green"
+        );
+    }
+}
+
+function updateLighting(
+    data
+)
+{
+    if (!lightBtn)
+    {
+        return;
+    }
+
+    if (
+        data.streetLightBrightness >
+        0
+    )
+    {
+        lightBtn.textContent =
+            "Desligar";
+    }
+    else
+    {
+        lightBtn.textContent =
+            "Ligar";
+    }
+}
+
+function updateSensors(
+    data
+)
+{
+    const temperature =
+        document.getElementById(
+            "temperature"
+        );
+
+    const humidity =
+        document.getElementById(
+            "humidity"
+        );
+
+    const ambientLight =
+        document.getElementById(
+            "ambientLight"
+        );
+
+    const gateLight =
+        document.getElementById(
+            "gateLight"
+        );
+
+    if (temperature)
+    {
+        temperature.textContent =
+            data.temperature ??
+            "--";
+    }
+
+    if (humidity)
+    {
+        humidity.textContent =
+            data.humidity ??
+            "--";
+    }
+
+    if (ambientLight)
+    {
+        ambientLight.textContent =
+            data.ambientLight ??
+            "--";
+    }
+
+    if (gateLight)
+    {
+        gateLight.textContent =
+            data.gateLight ??
+            "--";
+    }
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () =>
+    {
+        const cards =
+            document.querySelectorAll(
+                ".card"
+            );
+
+        cards.forEach(
+            (card) =>
             {
-                return;
+                const header =
+                    card.querySelector(
+                        ".card-header"
+                    );
+
+                const body =
+                    card.querySelector(
+                        ".card-body"
+                    );
+
+                const chevron =
+                    card.querySelector(
+                        ".chevron-icon"
+                    );
+
+                if (
+                    !header ||
+                    !body
+                )
+                {
+                    return;
+                }
+
+                header.style.cursor =
+                    "pointer";
+
+                header.addEventListener(
+                    "click",
+                    () =>
+                    {
+                        const visible =
+                            window
+                                .getComputedStyle(
+                                    body
+                                )
+                                .display !==
+                            "none";
+
+                        if (
+                            visible
+                        )
+                        {
+                            body.style.display =
+                                "none";
+
+                            if (
+                                chevron
+                            )
+                            {
+                                chevron.style.transform =
+                                    "rotate(180deg)";
+                            }
+                        }
+                        else
+                        {
+                            body.style.display =
+                                "flex";
+
+                            if (
+                                chevron
+                            )
+                            {
+                                chevron.style.transform =
+                                    "rotate(0deg)";
+                            }
+                        }
+                    }
+                );
             }
+        );
 
-            socket.send(
-                JSON.stringify({
-                    command:
-                        "set_city",
+        cityInput =
+            document.getElementById(
+                "cityInput"
+            );
 
-                    city:
+        saveCityBtn =
+            document.getElementById(
+                "saveCityButton"
+            );
+
+        const pageTitle =
+            document.querySelector(
+                ".page-title"
+            );
+
+        const subtitle =
+            document.createElement(
+                "p"
+            );
+
+        subtitle.id =
+            "citySubtitle";
+
+        subtitle.className =
+            "city-subtitle";
+
+        subtitle.textContent =
+            "Cidade: ---";
+
+        pageTitle.after(
+            subtitle
+        );
+
+        const gateCard =
+            cards[2];
+
+        gateBtn =
+            gateCard.querySelector(
+                ".btn"
+            );
+
+        gateStatusBox =
+            gateCard.querySelector(
+                ".status-box"
+            );
+
+        gateDot =
+            gateCard.querySelector(
+                ".status-dot-green"
+            );
+
+        gateText =
+            gateStatusBox.querySelector(
+                "span:last-child"
+            );
+
+        const lightCard =
+            cards[1];
+
+        lightBtn =
+            lightCard.querySelector(
+                ".btn"
+            );
+
+        if (saveCityBtn)
+        {
+            saveCityBtn.addEventListener(
+                "click",
+                () =>
+                {
+                    const city =
                         cityInput.value
-                })
+                            .trim();
+
+                    if (
+                        city.length ===
+                        0
+                    )
+                    {
+                        return;
+                    }
+
+                    console.log(
+                        "Cidade enviada:",
+                        city
+                    );
+
+                    sendCommand({
+                        command:
+                            "set_city",
+
+                        city:
+                            city
+                    });
+                }
             );
         }
-    );
 
-document
-    .getElementById(
-        "openGateButton"
-    )
-    .addEventListener(
-        "click",
-        () =>
+        if (gateBtn)
         {
-            socket.send(
-                JSON.stringify({
-                    command:
-                        "open_gate"
-                })
+            gateBtn.addEventListener(
+                "click",
+                () =>
+                {
+                    if (
+                        gateText.textContent ===
+                        "Aberta"
+                    )
+                    {
+                        sendCommand({
+                            command:
+                                "close_gate"
+                        });
+                    }
+                    else
+                    {
+                        sendCommand({
+                            command:
+                                "open_gate"
+                        });
+                    }
+                }
             );
         }
-    );
 
-document
-    .getElementById(
-        "closeGateButton"
-    )
-    .addEventListener(
-        "click",
-        () =>
-        {
-            socket.send(
-                JSON.stringify({
-                    command:
-                        "close_gate"
-                })
-            );
-        }
-    );
-
-connectWebSocket();
+        connectWebSocket();
+    }
+);
