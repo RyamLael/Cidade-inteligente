@@ -5,235 +5,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Controle - Cidade Inteligente</title>
-
     <link rel="stylesheet" href="style.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <div class="app-container">
-
         <header class="header">
-
             <div class="logo-area">
-                <img
-                    src="/src/assets/cidadeInteligenteLogo.svg"
-                    alt="Cidade Inteligente"
-                    class="logo">
+                <img src="/src/assets/cidadeInteligenteLogo.svg" alt="Cidade Inteligente" class="logo">
             </div>
 
             <hr class="header-divider">
 
             <div class="status-bar">
-
                 <div class="system-status">
-
-                    <svg
-                        class="icon-check"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-
-                        <path
-                            d="M22 11.08V12a10 10 0 1 1-5.93-9.14">
-                        </path>
-
-                        <polyline
-                            points="22 4 12 14.01 9 11.01">
-                        </polyline>
-
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
-
-                    <span>
-                        Status do sistema
-                    </span>
-
+                    <span>Status do sistema</span>
                 </div>
 
                 <div class="badge-online">
-
-                    <span class="badge-dot">
-                    </span>
-
-                    <span>
-                        Online
-                    </span>
-
+                    <span class="badge-dot"></span>
+                    <span>Online</span>
                 </div>
-
             </div>
-
         </header>
 
         <main class="content">
+            <h1 class="page-title">Painel de Controle</h1>
 
-            <h1 class="page-title">
-                Painel de Controle
-            </h1>
-
-            <!-- Cidade -->
-
+            <!-- nome da cidade -->
             <div class="card">
-
                 <div class="card-header">
-
                     <div class="card-title">
-
-                        <svg
-                            class="card-icon green"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round">
-
+                        <svg class="card-icon green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 20h9"></path>
-
-                            <path
-                                d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z">
-                            </path>
-
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                         </svg>
-
-                        <h2>
-                            Alterar nome da cidade
-                        </h2>
-
+                        <h2>Alterar nome da cidade</h2>
                     </div>
-
-                    <svg
-                        class="chevron-icon"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-
-                        <polyline
-                            points="6 9 12 15 18 9">
-                        </polyline>
-
+                    <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
-
                 </div>
 
                 <div class="card-body">
-
-                    <label
-                        for="cityInput"
-                        class="form-label">
-
-                        Nome da cidade:
-
-                    </label>
-
-                    <input
-                        type="text"
-                        id="cityInput"
-                        class="form-input"
-                        maxlength="16"
-                        placeholder="Cidade Inteligente">
+                    <label for="city-input" class="form-label">Nome da cidade:</label>
+                    <input type="text" id="city-input" class="form-input" placeholder="Cidade inteligente">
 
                     <div class="button-wrapper">
-
-                        <button
-                            id="saveCityButton"
-                            type="button"
-                            class="btn btn-green">
-
-                            Salvar
-
-                        </button>
-
+                        <button type="button" class="btn btn-green">Salvar</button>
                     </div>
-
                 </div>
-
             </div>
 
-            <!-- Iluminação -->
-
+            <!-- luzes -->
             <div class="card">
-
                 <div class="card-header">
-
                     <div class="card-title">
-
-                        <svg
-                            class="card-icon yellow"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round">
-
+                        <svg class="card-icon yellow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 18h6"></path>
-
                             <path d="M10 22h4"></path>
-
                             <path
                                 d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14">
                             </path>
-
                         </svg>
-
-                        <h2>
-                            Iluminação
-                        </h2>
-
+                        <h2>Iluminação</h2>
                     </div>
-
-                    <svg
-                        class="chevron-icon"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-
-                        <polyline
-                            points="6 9 12 15 18 9">
-                        </polyline>
-
+                    <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
-
                 </div>
 
                 <div class="card-body">
-
                     <div class="status-box box-yellow">
-
                         <div class="lamp-circle">
-
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round">
-
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="12" y1="2" x2="12" y2="6"></line>
                                 <line x1="12" y1="18" x2="12" y2="22"></line>
                                 <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
@@ -242,191 +101,50 @@
                                 <line x1="18" y1="12" x2="22" y2="12"></line>
                                 <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
                                 <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
-
                             </svg>
-
                         </div>
-
-                        <span>
-                            Luzes Ligadas
-                        </span>
-
+                        <span>Luzes Ligadas</span>
                     </div>
 
                     <div class="button-wrapper">
-
-                        <button
-                            type="button"
-                            class="btn btn-red">
-
-                            Desligar
-
-                        </button>
-
+                        <button type="button" class="btn btn-red">Desligar</button>
                     </div>
-
                 </div>
-
             </div>
 
-            <!-- Cancela -->
-
+            <!-- cancela -->
             <div class="card">
-
                 <div class="card-header">
-
                     <div class="card-title">
-
-                        <svg
-                            class="card-icon red"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round">
-
-                            <rect
-                                x="2"
-                                y="4"
-                                width="20"
-                                height="5"
-                                rx="1">
-                            </rect>
-
+                        <svg class="card-icon red" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="5" rx="1"></rect>
                             <path d="M4 9v11"></path>
-
                             <path d="M20 9v11"></path>
-
                         </svg>
-
-                        <h2>
-                            Controle da cancela
-                        </h2>
-
+                        <h2>Controle da cancela</h2>
                     </div>
-
-                    <svg
-                        class="chevron-icon"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-
-                        <polyline
-                            points="6 9 12 15 18 9">
-                        </polyline>
-
+                    <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>
-
                 </div>
 
                 <div class="card-body">
-
                     <div class="status-box box-green">
-
-                        <span class="status-dot-green">
-                        </span>
-
-                        <span>
-                            Aberta
-                        </span>
-
+                        <span class="status-dot-green"></span>
+                        <span>Aberta</span>
                     </div>
 
                     <div class="button-wrapper">
-
-                        <button
-                            type="button"
-                            class="btn btn-red">
-
-                            Fechar
-
-                        </button>
-
+                        <button type="button" class="btn btn-red">Fechar</button>
                     </div>
-
                 </div>
-
             </div>
-
-            <!-- SENSORES -->
-
-            <div class="card">
-
-                <div class="card-header">
-
-                    <div class="card-title">
-
-                        <h2>
-                            Sensores
-                        </h2>
-
-                    </div>
-
-                    <svg
-                        class="chevron-icon"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-
-                        <polyline
-                            points="6 9 12 15 18 9">
-                        </polyline>
-
-                    </svg>
-
-                </div>
-
-                <div class="card-body">
-
-                    <p>
-                        Temperatura:
-                        <span id="temperature">
-                            --
-                        </span>
-                        °C
-                    </p>
-
-                    <p>
-                        Umidade:
-                        <span id="humidity">
-                            --
-                        </span>
-                        %
-                    </p>
-
-                    <p>
-                        Luz Ambiente:
-                        <span id="ambientLight">
-                            --
-                        </span>
-                    </p>
-
-                    <p>
-                        Luz Cancela:
-                        <span id="gateLight">
-                            --
-                        </span>
-                    </p>
-
-                </div>
-
-            </div>
-
         </main>
-
     </div>
 
-    <script src="app.js"></script>
+    <script src="/data/app.js"></script>
 
 </body>
 
